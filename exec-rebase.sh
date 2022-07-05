@@ -11,7 +11,6 @@ IFS=$'\n\t'
 # repeat until you get to root of branch
 # then cherry-pick until queue empty
 # now rebase onto target
-
 PARENT_COMMIT_REF=${1:-}
 if [[ -z "$PARENT_COMMIT_REF" ]]; then
   echo "Parent commit ref must be defined"
@@ -41,14 +40,15 @@ while [[ $(git rev-parse HEAD) != "$PARENT_COMMIT_HASH" ]]; do
   EDITED_COMMIT_HASHES+=("$(git rev-parse HEAD)")
   git checkout HEAD^
 done  
-declare -p EDITED_COMMIT_HASHES
-REV_EDITED_COMMIT_HASHES=($(printf '%s\n' "${EDITED_COMMIT_HASHES[@]}" | tac))
-declare -p REV_EDITED_COMMIT_HASHES
 
-git checkout -b LINT_REBASE_HEAD
-for commit_hash in "${REV_EDITED_COMMIT_HASHES[@]}"; do
-  git cherry-pick "$commit_hash"
-  echo "${commit_hash}"
+
+#shopt -s lastpipe
+#printf "%s " "${EDITED_COMMIT_HASHES[@]}" | tac | read -r -a REV_EDITED_COMMIT_HASHES
+#git checkout -b LINT_REBASE_HEAD
+for commit_index in "${!EDITED_COMMIT_HASHES[@]}"; do
+  #git cherry-pick "$commit_hash"
+  echo "${commit_index}"
+  echo "${EDITED_COMMIT_HASHES[-commit_index]}"
 done
 echo "$PARENT_COMMIT_REF"
 
