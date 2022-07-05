@@ -18,15 +18,23 @@ if [[ -z "$PARENT_COMMIT_REF" ]]; then
   exit 1
 fi
 
+TEMP=$(getopt -o 'x:' -- "$@")
+if [ $? -ne 0 ]; then
+  echo "Terminating! Not all required command line arguments"
+fi
+eval set -- "$TEMP"
+unset TEMP
+
+EXEC_COMMAND="$2"
 CUR_HEAD_HASH=$(git rev-parse HEAD)
-declare -r CUR_HEAD_HASH
 PARENT_COMMIT_HASH=$(git rev-parse "$PARENT_COMMIT_REF")
-declare -r PARENT_COMMIT_HASH
+declare -r EXEC_COMMAND CUR_HEAD_HASH PARENT_COMMIT_HASH
 #TODO: write trap to handle if invalid ref
 #TODO: ensure no detached head
 
 
 while [[ $(git rev-parse HEAD) != "$PARENT_COMMIT_HASH" ]]; do
+  eval "$EXEC_COMMAND"
   git checkout HEAD^
   echo "HELLO"
   git status
