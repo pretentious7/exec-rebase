@@ -45,6 +45,7 @@ done
 #shopt -s lastpipe
 #printf "%s " "${EDITED_COMMIT_HASHES[@]}" | tac | read -r -a REV_EDITED_COMMIT_HASHES
 #git checkout -b LINT_REBASE_HEAD
+declare -p EDITED_COMMIT_HASHES
 for commit_index in "${!EDITED_COMMIT_HASHES[@]}"; do
   #git cherry-pick "$commit_hash"
   echo "${commit_index}"
