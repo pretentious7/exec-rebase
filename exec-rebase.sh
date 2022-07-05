@@ -35,15 +35,20 @@ declare -r EXEC_COMMAND CUR_HEAD_HASH PARENT_COMMIT_HASH
 EDITED_COMMIT_HASHES=()
 while [[ $(git rev-parse HEAD) != "$PARENT_COMMIT_HASH" ]]; do
   eval "$EXEC_COMMAND"
-  git commit --amend -a 
+  #TODO: ensure this happens in repo root
+  git add .
+  git commit --amend 
   EDITED_COMMIT_HASHES+=("$(git rev-parse HEAD)")
   git checkout HEAD^
 done  
-
-git checkout -b LINT_REBASE_HEAD
+declare -p EDITED_COMMIT_HASHES
+#git checkout -b LINT_REBASE_HEAD
+REV_ARRAY=($(printf '%s\n' "${array[@]}" | tac | tr '\n'))
+declare -p REV_ARRAY
 for commit_hash in "${EDITED_COMMIT_HASHES[@]}"; do
-  git cherry-pick "$commit_hash"
+#  git cherry-pick "$commit_hash"
+  echo "hello!"
 done
-#echo "$PARENT_COMMIT_REF"
+echo "$PARENT_COMMIT_REF"
 
 #git reset --soft "$CUR_HEAD_HASH"
