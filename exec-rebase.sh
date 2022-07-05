@@ -32,15 +32,18 @@ declare -r EXEC_COMMAND CUR_HEAD_HASH PARENT_COMMIT_HASH
 #TODO: write trap to handle if invalid ref
 #TODO: ensure no detached head
 
-
+EDITED_COMMIT_HASHES=()
 while [[ $(git rev-parse HEAD) != "$PARENT_COMMIT_HASH" ]]; do
   eval "$EXEC_COMMAND"
+  git commit --amend -a 
+  EDITED_COMMIT_HASHES+=("$(git rev-parse HEAD)")
   git checkout HEAD^
-  echo "HELLO"
-  git status
 done  
-#git checkout HEAD^
 
+git checkout -b LINT_REBASE_HEAD
+for commit_hash in "${EDITED_COMMIT_HASHES[@]}"; do
+  git cherry-pick "$commit_hash"
+done
 #echo "$PARENT_COMMIT_REF"
 
-git reset --soft "$CUR_HEAD_HASH"
+#git reset --soft "$CUR_HEAD_HASH"
