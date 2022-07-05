@@ -43,11 +43,11 @@ while [[ $(git rev-parse HEAD) != "$PARENT_COMMIT_HASH" ]]; do
 done  
 declare -p EDITED_COMMIT_HASHES
 #git checkout -b LINT_REBASE_HEAD
-REV_ARRAY=($(printf '%s\n' "${array[@]}" | tac | tr '\n'))
+REV_ARRAY=($(printf '%s\n' "${array[@]}" | tac | tr '\n' ' '))
 declare -p REV_ARRAY
 for commit_hash in "${EDITED_COMMIT_HASHES[@]}"; do
 #  git cherry-pick "$commit_hash"
-  echo "hello!"
+  echo "${commit_hash}"
 done
 echo "$PARENT_COMMIT_REF"
 
