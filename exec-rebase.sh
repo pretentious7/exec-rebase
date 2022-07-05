@@ -37,7 +37,7 @@ while [[ $(git rev-parse HEAD) != "$PARENT_COMMIT_HASH" ]]; do
   eval "$EXEC_COMMAND"
   #TODO: ensure this happens in repo root
   git add .
-  git commit --amend 
+  git commit --amend --no-edit
   EDITED_COMMIT_HASHES+=("$(git rev-parse HEAD)")
   git checkout HEAD^
 done  
