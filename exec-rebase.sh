@@ -23,6 +23,7 @@ declare -r CUR_HEAD_HASH
 PARENT_COMMIT_HASH=$(git rev-parse "$PARENT_COMMIT_REF")
 declare -r PARENT_COMMIT_HASH
 #TODO: write trap to handle if invalid ref
+#TODO: ensure no detached head
 
 
 while [[ $(git rev-parse HEAD) != "$PARENT_COMMIT_HASH" ]]; do
