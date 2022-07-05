@@ -18,13 +18,20 @@ if [[ -z "$PARENT_COMMIT_REF" ]]; then
   exit 1
 fi
 
+CUR_HEAD_HASH=$(git rev-parse HEAD)
+declare -r CUR_HEAD_HASH
 PARENT_COMMIT_HASH=$(git rev-parse "$PARENT_COMMIT_REF")
+declare -r PARENT_COMMIT_HASH
 #TODO: write trap to handle if invalid ref
 
 
 while [[ $(git rev-parse HEAD) != "$PARENT_COMMIT_HASH" ]]; do
-  echo "yay"
+  git checkout HEAD^
+  echo "HELLO"
+  git status
 done  
 #git checkout HEAD^
 
 #echo "$PARENT_COMMIT_REF"
+
+git checkout "$CUR_HEAD_HASH"
