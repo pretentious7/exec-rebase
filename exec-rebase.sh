@@ -49,7 +49,7 @@ declare -p EDITED_COMMIT_HASHES
 for commit_index in "${!EDITED_COMMIT_HASHES[@]}"; do
   #git cherry-pick "$commit_hash"
   echo "${commit_index}"
-  echo "${EDITED_COMMIT_HASHES[-commit_index]}"
+  echo "${EDITED_COMMIT_HASHES[-commit_index-1]}"
 done
 echo "$PARENT_COMMIT_REF"
 
