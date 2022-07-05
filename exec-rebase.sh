@@ -34,4 +34,4 @@ done
 
 #echo "$PARENT_COMMIT_REF"
 
-git checkout "$CUR_HEAD_HASH"
+git reset --soft "$CUR_HEAD_HASH"
